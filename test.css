@@ -1,0 +1,45 @@
+
+body {
+  background-color : #bcbcbc ;
+}
+
+
+.container{
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#elm {
+  width :100%;
+      flex-grow:1;
+
+}
+.description{
+  width: 100%;
+  background-color : #383848 ;
+  color : #ffffff ;
+
+  display: -webkit-flex;
+  display: flex;
+
+  -webkit-justify-content: space-around;
+  justify-content:         space-between;
+
+  -webkit-align-items: baseline;
+  align-items:         baseline;
+}
+
+.description >*{
+  padding: 8px;
+}
+
+.description h1 {
+  font-size : 1em;
+}
+
+.description span {
+  font-size : 1em ;
+}

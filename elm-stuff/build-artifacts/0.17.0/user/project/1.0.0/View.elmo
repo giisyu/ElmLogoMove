@@ -1,0 +1,358 @@
+var _user$project$View$onMouseDown = function (n) {
+	return A2(
+		_elm_lang$svg$Svg_Events$on,
+		'mousedown',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			_user$project$Model$DragStart(n),
+			_elm_lang$mouse$Mouse$position));
+};
+var _user$project$View$matrixStr = function (list) {
+	if (_elm_lang$core$List$isEmpty(list)) {
+		return '';
+	} else {
+		var strings = A2(
+			_elm_lang$core$String$join,
+			' ',
+			A2(_elm_lang$core$List$map, _elm_lang$core$Basics$toString, list));
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'matrix(',
+			A2(_elm_lang$core$Basics_ops['++'], strings, ')'));
+	}
+};
+var _user$project$View$rotateString = F3(
+	function (num, x, y) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'rotate(',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				A2(
+					_elm_lang$core$String$join,
+					' ',
+					A2(
+						_elm_lang$core$List$map,
+						_elm_lang$core$Basics$toString,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$core$Basics$toFloat(num),
+								x,
+								y
+							]))),
+				')'));
+	});
+var _user$project$View$rotatePiece = function (_p0) {
+	var _p1 = _p0;
+	var _p9 = _p1.rotate;
+	var _p8 = _p1.points;
+	var _p2 = _p1.svgType;
+	if (_p2.ctor === 'Rect') {
+		return A3(_user$project$View$rotateString, _p9, _p1.x + (_p1.width / 2), _p1.y + (_p1.height / 2));
+	} else {
+		var n = _elm_lang$core$Basics$toFloat(
+			_elm_lang$core$List$length(_p8));
+		var _p3 = A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (_p5, _p4) {
+					var _p6 = _p5;
+					var _p7 = _p4;
+					return {ctor: '_Tuple2', _0: _p6._0 + _p7._0, _1: _p6._1 + _p7._1};
+				}),
+			{ctor: '_Tuple2', _0: 0, _1: 0},
+			_p8);
+		var ax = _p3._0;
+		var ay = _p3._1;
+		return A3(_user$project$View$rotateString, _p9, ax / n, ay / n);
+	}
+};
+var _user$project$View$moveStr = function (_p10) {
+	var _p11 = _p10;
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'translate(',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(_p11.x),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				' ',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(_p11.y),
+					')'))));
+};
+var _user$project$View$transformStr = function (piece) {
+	return A2(
+		_elm_lang$core$String$join,
+		' ',
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_user$project$View$moveStr(piece.position),
+				_user$project$View$matrixStr(piece.matrix),
+				_user$project$View$rotatePiece(piece)
+			]));
+};
+var _user$project$View$transformAttri = function (piece) {
+	return _elm_lang$svg$Svg_Attributes$transform(
+		_user$project$View$transformStr(piece));
+};
+var _user$project$View$makeAttribute = function (piece) {
+	return _elm_lang$core$Native_List.fromArray(
+		[
+			_user$project$View$onMouseDown(piece.id),
+			_elm_lang$svg$Svg_Attributes$fill(piece.fill),
+			_elm_lang$svg$Svg_Attributes$x(
+			_elm_lang$core$Basics$toString(piece.x)),
+			_elm_lang$svg$Svg_Attributes$y(
+			_elm_lang$core$Basics$toString(piece.y)),
+			_elm_lang$svg$Svg_Attributes$width(
+			_elm_lang$core$Basics$toString(piece.width)),
+			_elm_lang$svg$Svg_Attributes$height(
+			_elm_lang$core$Basics$toString(piece.height)),
+			_elm_lang$svg$Svg_Attributes$points(
+			A2(
+				_elm_lang$core$String$join,
+				' ',
+				A2(
+					_elm_lang$core$List$map,
+					function (_p12) {
+						var _p13 = _p12;
+						return A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Basics$toString(_p13._0),
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								',',
+								_elm_lang$core$Basics$toString(_p13._1)));
+					},
+					piece.points))),
+			_user$project$View$transformAttri(piece)
+		]);
+};
+var _user$project$View$makeSvg = function (piece) {
+	var _p14 = piece.svgType;
+	if (_p14.ctor === 'Polygon') {
+		return A2(
+			_elm_lang$svg$Svg$polygon,
+			_user$project$View$makeAttribute(piece),
+			_elm_lang$core$Native_List.fromArray(
+				[]));
+	} else {
+		return A2(
+			_elm_lang$svg$Svg$rect,
+			_user$project$View$makeAttribute(piece),
+			_elm_lang$core$Native_List.fromArray(
+				[]));
+	}
+};
+var _user$project$View$polynakami = function (piece) {
+	return _elm_lang$core$Native_List.fromArray(
+		[
+			A2(
+			_elm_lang$core$Basics_ops['++'],
+			'fill=',
+			_elm_lang$core$Basics$toString(piece.fill)),
+			A2(
+			_elm_lang$core$String$append,
+			'points=',
+			_elm_lang$core$Basics$toString(
+				A2(
+					_elm_lang$core$String$join,
+					' ',
+					A2(
+						_elm_lang$core$List$map,
+						function (_p15) {
+							var _p16 = _p15;
+							return A2(
+								_elm_lang$core$Basics_ops['++'],
+								_elm_lang$core$Basics$toString(_p16._0),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									',',
+									_elm_lang$core$Basics$toString(_p16._1)));
+						},
+						piece.points)))),
+			A2(
+			_elm_lang$core$Basics_ops['++'],
+			'transform=',
+			_elm_lang$core$Basics$toString(
+				_user$project$View$transformStr(piece)))
+		]);
+};
+var _user$project$View$rectnakami = function (piece) {
+	return _elm_lang$core$Native_List.fromArray(
+		[
+			A2(
+			_elm_lang$core$Basics_ops['++'],
+			'fill=',
+			_elm_lang$core$Basics$toString(piece.fill)),
+			A2(
+			_elm_lang$core$String$append,
+			'x=',
+			_elm_lang$core$Basics$toString(
+				_elm_lang$core$Basics$toString(piece.x))),
+			A2(
+			_elm_lang$core$String$append,
+			'y=',
+			_elm_lang$core$Basics$toString(
+				_elm_lang$core$Basics$toString(piece.y))),
+			A2(
+			_elm_lang$core$String$append,
+			'width=',
+			_elm_lang$core$Basics$toString(
+				_elm_lang$core$Basics$toString(piece.width))),
+			A2(
+			_elm_lang$core$String$append,
+			'height=',
+			_elm_lang$core$Basics$toString(
+				_elm_lang$core$Basics$toString(piece.height))),
+			A2(
+			_elm_lang$core$String$append,
+			'transform=',
+			_elm_lang$core$Basics$toString(
+				_user$project$View$transformStr(piece)))
+		]);
+};
+var _user$project$View$pieceStr = function (piece) {
+	var _p17 = piece.svgType;
+	if (_p17.ctor === 'Polygon') {
+		return A2(
+			_elm_lang$core$String$join,
+			' ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Native_List.fromArray(
+					['<polygon']),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$View$polynakami(piece),
+					_elm_lang$core$Native_List.fromArray(
+						['/>\n']))));
+	} else {
+		return A2(
+			_elm_lang$core$String$join,
+			' ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Native_List.fromArray(
+					['<rect']),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$View$rectnakami(piece),
+					_elm_lang$core$Native_List.fromArray(
+						['/>\n']))));
+	}
+};
+var _user$project$View$viewboxSize = '-300 -300 923.141 922.95';
+var _user$project$View$generateSvgStr = function (pieces) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'<svg viewBox=',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(_user$project$View$viewboxSize),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				' >',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$String$concat(
+						A2(_elm_lang$core$List$map, _user$project$View$pieceStr, pieces)),
+					'</svg>'))));
+};
+var _user$project$View$generater = function (pieces) {
+	return A2(
+		_elm_lang$html$Html$pre,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$svg$Svg$text(
+				_user$project$View$generateSvgStr(pieces))
+			]));
+};
+var _user$project$View$logoAreaCss = _elm_lang$html$Html_Attributes$style(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			_seanhess$elm_style$Style$backgroundColor('#ffffff'),
+			_seanhess$elm_style$Style$width(
+			_seanhess$elm_style$Style$px(600)),
+			_seanhess$elm_style$Style$height(
+			_seanhess$elm_style$Style$px(550)),
+			_seanhess$elm_style$Style$margin(
+			_seanhess$elm_style$Style$px(20))
+		]));
+var _user$project$View$logoArea = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[_user$project$View$logoAreaCss]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$svg$Svg$svg,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$svg$Svg_Attributes$version('1.1'),
+						_elm_lang$svg$Svg_Attributes$x('0'),
+						_elm_lang$svg$Svg_Attributes$y('0'),
+						_elm_lang$svg$Svg_Attributes$viewBox(_user$project$View$viewboxSize)
+					]),
+				_elm_lang$core$Array$toList(
+					A2(
+						_elm_lang$core$Array$map,
+						function (piece) {
+							return _user$project$View$makeSvg(piece);
+						},
+						A2(_user$project$Util$currentPieces, model.drag, model.pieces))))
+			]));
+};
+var _user$project$View$generaterCss = _elm_lang$html$Html_Attributes$style(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			_seanhess$elm_style$Style$overflow(_seanhess$elm_style$Style$scroll),
+			_seanhess$elm_style$Style$backgroundColor('#ffffff'),
+			_seanhess$elm_style$Style$padding(
+			_seanhess$elm_style$Style$px(20)),
+			_seanhess$elm_style$Style$width(
+			_seanhess$elm_style$Style$pc(20))
+		]));
+var _user$project$View$generaterArea = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[_user$project$View$generaterCss]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html_Lazy$lazy,
+						_user$project$View$generater,
+						_elm_lang$core$Array$toList(model.pieces))
+					]))
+			]));
+};
+var _user$project$View$containerCss = _elm_lang$html$Html_Attributes$style(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			_seanhess$elm_style$Style$display('flex'),
+			_seanhess$elm_style$Style$justifyContent(_seanhess$elm_style$Style$center)
+		]));
+var _user$project$View$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[_user$project$View$containerCss]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(_elm_lang$svg$Svg_Lazy$lazy, _user$project$View$logoArea, model),
+				A2(_elm_lang$svg$Svg_Lazy$lazy, _user$project$View$generaterArea, model)
+			]));
+};

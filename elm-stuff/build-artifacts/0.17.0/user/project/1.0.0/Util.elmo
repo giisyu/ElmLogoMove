@@ -1,0 +1,38 @@
+var _user$project$Util$idUpdate = F3(
+	function (selectId, f, array) {
+		return A2(
+			_elm_lang$core$Array$indexedMap,
+			F2(
+				function (idx, _p0) {
+					var _p1 = _p0;
+					var _p2 = _p1;
+					return _elm_lang$core$Native_Utils.eq(_p1.id, selectId) ? f(_p2) : _p2;
+				}),
+			array);
+	});
+var _user$project$Util$currentPieces = F2(
+	function (drag, pieces) {
+		var mPieces = A2(
+			_elm_lang$core$Maybe$andThen,
+			drag,
+			function (_p3) {
+				var _p4 = _p3;
+				var _p9 = _p4.start;
+				var _p8 = _p4.current;
+				return _elm_lang$core$Maybe$Just(
+					A3(
+						_user$project$Util$idUpdate,
+						_p4.id,
+						function (_p5) {
+							var _p6 = _p5;
+							var _p7 = _p6.position;
+							return _elm_lang$core$Native_Utils.update(
+								_p6,
+								{
+									position: {x: (_p7.x + _p8.x) - _p9.x, y: (_p7.y + _p8.y) - _p9.y}
+								});
+						},
+						pieces));
+			});
+		return A2(_elm_lang$core$Maybe$withDefault, pieces, mPieces);
+	});

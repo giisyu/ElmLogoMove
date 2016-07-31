@@ -1,0 +1,173 @@
+var _user$project$Main$subscriptions = function (model) {
+	var _p0 = model.drag;
+	if (_p0.ctor === 'Nothing') {
+		return _elm_lang$core$Platform_Sub$batch(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$keyboard$Keyboard$downs(_user$project$Model$Keydowns)
+				]));
+	} else {
+		var _p1 = _p0._0.id;
+		return _elm_lang$core$Platform_Sub$batch(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$mouse$Mouse$moves(
+					_user$project$Model$DragAt(_p1)),
+					_elm_lang$mouse$Mouse$ups(
+					_user$project$Model$DragEnd(_p1))
+				]));
+	}
+};
+var _user$project$Main$updateArray = F3(
+	function (f, num, array) {
+		var _p2 = A2(
+			_elm_lang$core$Maybe$map,
+			function (a) {
+				return A3(
+					_elm_lang$core$Array$set,
+					num,
+					f(a),
+					array);
+			},
+			A2(_elm_lang$core$Array$get, num, array));
+		if (_p2.ctor === 'Just') {
+			return _p2._0;
+		} else {
+			return array;
+		}
+	});
+var _user$project$Main$movePixel = 10;
+var _user$project$Main$movedPieces = F3(
+	function (f, id, pieces) {
+		var move = function (_p3) {
+			var _p4 = _p3;
+			var _p5 = _p4.position;
+			return _elm_lang$core$Native_Utils.update(
+				_p4,
+				{
+					position: _elm_lang$core$Native_Utils.update(
+						_p5,
+						{
+							y: A2(f, _p5.y, _user$project$Main$movePixel)
+						})
+				});
+		};
+		return A3(_user$project$Main$updateArray, move, id, pieces);
+	});
+var _user$project$Main$updatehelp = F2(
+	function (msg, _p6) {
+		var _p7 = _p6;
+		var _p15 = _p7;
+		var _p14 = _p7.drag;
+		var _p8 = msg;
+		switch (_p8.ctor) {
+			case 'DragStart':
+				var _p10 = _p8._1;
+				var _p9 = _p8._0;
+				return _elm_lang$core$Native_Utils.update(
+					_p15,
+					{
+						drag: _elm_lang$core$Maybe$Just(
+							{id: _p9, start: _p10, current: _p10}),
+						select: _p9
+					});
+			case 'DragAt':
+				var drag$ = A2(
+					_elm_lang$core$Maybe$map,
+					function (_p11) {
+						var _p12 = _p11;
+						return {id: _p12.id, start: _p12.start, current: _p8._1};
+					},
+					_p14);
+				return _elm_lang$core$Native_Utils.update(
+					_p15,
+					{drag: drag$});
+			case 'DragEnd':
+				return _elm_lang$core$Native_Utils.update(
+					_p15,
+					{
+						pieces: A2(_user$project$Util$currentPieces, _p14, _p15.pieces),
+						drag: _elm_lang$core$Maybe$Nothing
+					});
+			default:
+				var _p13 = _p8._0;
+				switch (_p13) {
+					case 37:
+						var pieces$ = A3(
+							_user$project$Main$updateArray,
+							function (a) {
+								return _elm_lang$core$Native_Utils.update(
+									a,
+									{rotate: a.rotate - 5});
+							},
+							_p15.select,
+							_p15.pieces);
+						return _elm_lang$core$Native_Utils.update(
+							_p15,
+							{pieces: pieces$});
+					case 39:
+						var pieces$ = A3(
+							_user$project$Main$updateArray,
+							function (a) {
+								return _elm_lang$core$Native_Utils.update(
+									a,
+									{rotate: a.rotate + 5});
+							},
+							_p15.select,
+							_p15.pieces);
+						return _elm_lang$core$Native_Utils.update(
+							_p15,
+							{pieces: pieces$});
+					case 38:
+						return _elm_lang$core$Native_Utils.update(
+							_p15,
+							{
+								pieces: A3(
+									_user$project$Main$movedPieces,
+									F2(
+										function (x, y) {
+											return x - y;
+										}),
+									_p15.select,
+									_p15.pieces)
+							});
+					case 40:
+						return _elm_lang$core$Native_Utils.update(
+							_p15,
+							{
+								pieces: A3(
+									_user$project$Main$movedPieces,
+									F2(
+										function (x, y) {
+											return x + y;
+										}),
+									_p15.select,
+									_p15.pieces)
+							});
+					default:
+						return _p15;
+				}
+		}
+	});
+var _user$project$Main$update = F2(
+	function (msg, _p16) {
+		var _p17 = _p16;
+		return A2(
+			_elm_lang$core$Platform_Cmd_ops['!'],
+			A2(_user$project$Main$updatehelp, msg, _p17),
+			_elm_lang$core$Native_List.fromArray(
+				[]));
+	});
+var _user$project$Main$init = A2(
+	_elm_lang$core$Platform_Cmd_ops['!'],
+	{
+		pieces: _elm_lang$core$Array$fromList(_user$project$Model$logoInit),
+		drag: _elm_lang$core$Maybe$Nothing,
+		select: 0
+	},
+	_elm_lang$core$Native_List.fromArray(
+		[]));
+var _user$project$Main$main = {
+	main: _elm_lang$html$Html_App$program(
+		{init: _user$project$Main$init, view: _user$project$View$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})
+};

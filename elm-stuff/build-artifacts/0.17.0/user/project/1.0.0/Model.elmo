@@ -1,0 +1,181 @@
+var _user$project$Model$Model = F3(
+	function (a, b, c) {
+		return {pieces: a, drag: b, select: c};
+	});
+var _user$project$Model$Piece = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return function (k) {
+											return {id: a, svgType: b, position: c, rotate: d, fill: e, points: f, x: g, y: h, width: i, height: j, matrix: k};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var _user$project$Model$Drag = F3(
+	function (a, b, c) {
+		return {id: a, start: b, current: c};
+	});
+var _user$project$Model$Keydowns = function (a) {
+	return {ctor: 'Keydowns', _0: a};
+};
+var _user$project$Model$DragEnd = F2(
+	function (a, b) {
+		return {ctor: 'DragEnd', _0: a, _1: b};
+	});
+var _user$project$Model$DragAt = F2(
+	function (a, b) {
+		return {ctor: 'DragAt', _0: a, _1: b};
+	});
+var _user$project$Model$DragStart = F2(
+	function (a, b) {
+		return {ctor: 'DragStart', _0: a, _1: b};
+	});
+var _user$project$Model$Rect = {ctor: 'Rect'};
+var _user$project$Model$Polygon = {ctor: 'Polygon'};
+var _user$project$Model$logoInit = _elm_lang$core$Native_List.fromArray(
+	[
+		{
+		id: 0,
+		svgType: _user$project$Model$Polygon,
+		fill: '#F0AD00',
+		points: _elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 161.649, _1: 152.782},
+				{ctor: '_Tuple2', _0: 231.514, _1: 82.916},
+				{ctor: '_Tuple2', _0: 91.783, _1: 82.916}
+			]),
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		matrix: _elm_lang$core$Native_List.fromArray(
+			[]),
+		rotate: 0,
+		position: A2(_elm_lang$mouse$Mouse$Position, 0, 0)
+	},
+		{
+		id: 1,
+		svgType: _user$project$Model$Polygon,
+		fill: '#7FD13B',
+		points: _elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 8.867, _1: 0},
+				{ctor: '_Tuple2', _0: 79.241, _1: 70.375},
+				{ctor: '_Tuple2', _0: 232.213, _1: 70.375},
+				{ctor: '_Tuple2', _0: 161.838, _1: 0}
+			]),
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		matrix: _elm_lang$core$Native_List.fromArray(
+			[]),
+		rotate: 0,
+		position: A2(_elm_lang$mouse$Mouse$Position, 0, 0)
+	},
+		{
+		id: 2,
+		svgType: _user$project$Model$Rect,
+		fill: '#7FD13B',
+		points: _elm_lang$core$Native_List.fromArray(
+			[]),
+		x: 192.99,
+		y: 107.392,
+		width: 107.676,
+		height: 108.167,
+		matrix: _elm_lang$core$Native_List.fromArray(
+			[0.7071, 0.7071, -0.7071, 0.7071, 186.4727, -127.2386]),
+		rotate: 0,
+		position: A2(_elm_lang$mouse$Mouse$Position, 0, 0)
+	},
+		{
+		id: 3,
+		svgType: _user$project$Model$Polygon,
+		fill: '#60B5CC',
+		points: _elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 323.298, _1: 143.724},
+				{ctor: '_Tuple2', _0: 323.298, _1: 0},
+				{ctor: '_Tuple2', _0: 179.573, _1: 0}
+			]),
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		matrix: _elm_lang$core$Native_List.fromArray(
+			[]),
+		rotate: 0,
+		position: A2(_elm_lang$mouse$Mouse$Position, 0, 0)
+	},
+		{
+		id: 4,
+		svgType: _user$project$Model$Polygon,
+		fill: '#5A6378',
+		points: _elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 152.781, _1: 161.649},
+				{ctor: '_Tuple2', _0: 0, _1: 8.868},
+				{ctor: '_Tuple2', _0: 0, _1: 314.432}
+			]),
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		matrix: _elm_lang$core$Native_List.fromArray(
+			[]),
+		rotate: 0,
+		position: A2(_elm_lang$mouse$Mouse$Position, 0, 0)
+	},
+		{
+		id: 5,
+		svgType: _user$project$Model$Polygon,
+		fill: '#F0AD00',
+		points: _elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 255.522, _1: 246.655},
+				{ctor: '_Tuple2', _0: 323.298, _1: 314.432},
+				{ctor: '_Tuple2', _0: 323.298, _1: 178.879}
+			]),
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		matrix: _elm_lang$core$Native_List.fromArray(
+			[]),
+		rotate: 0,
+		position: A2(_elm_lang$mouse$Mouse$Position, 0, 0)
+	},
+		{
+		id: 6,
+		svgType: _user$project$Model$Polygon,
+		fill: '#60B5CC',
+		points: _elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: 161.649, _1: 170.517},
+				{ctor: '_Tuple2', _0: 8.869, _1: 323.298},
+				{ctor: '_Tuple2', _0: 314.43, _1: 323.298}
+			]),
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+		matrix: _elm_lang$core$Native_List.fromArray(
+			[]),
+		rotate: 0,
+		position: A2(_elm_lang$mouse$Mouse$Position, 0, 0)
+	}
+	]);
